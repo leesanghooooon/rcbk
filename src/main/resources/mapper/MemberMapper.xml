@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberMapper">
+
+    <select id="getSelectOneMemberInfo" resultType="LoginDto" parameterType="LoginDto">
+        SELECT
+            USERID
+            , USERPW
+            , USERNAME
+            , ROLE
+            , HP
+            , EMAIL
+            , GENDER
+            , ZIPCODE
+            , ADDRESS1
+            , ADDRESS2
+            , ADDRESS3
+            ,REGDATE
+        FROM RC_USER
+        WHERE USERID = #{userid}
+    </select>
+
+    <select id="findUserByUsername" resultType="UserDto" parameterType="String">
+        SELECT
+            USERID
+             , USERPW
+             , USERNAME
+             , ROLE
+             , HP
+             , EMAIL
+             , GENDER
+             , ZIPCODE
+             , ADDRESS1
+             , ADDRESS2
+             , ADDRESS3
+             ,REGDATE
+        FROM RC_USER
+        WHERE USERID = #{userid}
+    </select>
+
+    <insert id="saveMember" parameterType="MemberDto">
+        INSERT INTO
+            RC_USER
+        VALUES(#{userid},#{userpw},#{username},#{hp},#{email},#{gender},#{zipcode},#{address1},#{address2},#{address3},NOW(),#{role});
+    </insert>
+
+</mapper>
