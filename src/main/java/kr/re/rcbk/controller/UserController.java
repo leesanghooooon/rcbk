@@ -4,6 +4,7 @@ import kr.re.rcbk.common.authority.JwtFilter;
 import kr.re.rcbk.common.response.BaseResponse;
 import kr.re.rcbk.dto.LoginDto;
 import kr.re.rcbk.dto.MemberDto;
+import kr.re.rcbk.response.LoginResponse;
 import kr.re.rcbk.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,13 @@ public class UserController {
     public BaseResponse<?> login(@RequestBody LoginDto loginDto) {
 
         try {
-            String token = userService.login(loginDto);
+            LoginResponse res = userService.login(loginDto);
 
 
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + token);
+            httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + res.getToken());
 
-            Object data = ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(token);
+            Object data = ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(res);
 
             return BaseResponse.ok(data);
 

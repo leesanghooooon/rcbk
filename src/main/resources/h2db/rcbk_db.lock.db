@@ -1,0 +1,6 @@
+#FileLock
+#Wed Oct 30 16:45:17 KST 2024
+hostName=192.168.10.123
+id=192dc62d5cbb0e2ccd9294cc8d4dfd3ea0b44dfe468
+method=file
+server=192.168.10.123\:53145

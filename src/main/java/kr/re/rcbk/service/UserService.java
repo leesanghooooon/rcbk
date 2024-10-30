@@ -7,6 +7,7 @@ import kr.re.rcbk.dto.LoginDto;
 import kr.re.rcbk.dto.MemberDto;
 import kr.re.rcbk.dto.MemberRoleDto;
 import kr.re.rcbk.dto.UserDto;
+import kr.re.rcbk.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -41,7 +42,7 @@ public class UserService {
      * @return String
      * @throws LoginException
      */
-    public String login(LoginDto loginDto) throws LoginException {
+    public LoginResponse login(LoginDto loginDto) throws LoginException {
 
         UserDto userDto = memberService.findByUserNo(loginDto.getUserid());
         if(ObjectUtils.isEmpty(userDto)) throw new LoginException("잘못된 아이디 입니다.");
@@ -52,7 +53,12 @@ public class UserService {
         // Token Checked..
         String toke = tokenProvider.createToken(userDto.getUserid(), Collections.singletonList(userDto.getRole()));
 
-        return tokenProvider.createToken(userDto.getUserid(), Collections.singletonList(userDto.getRole()));
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setUserid(userDto.getUserid());
+        loginResponse.setUsername(userDto.getUsername());
+        loginResponse.setToken(toke);
+
+        return loginResponse;
     }
 
     public String singUp(MemberDto memberDto) throws Exception {

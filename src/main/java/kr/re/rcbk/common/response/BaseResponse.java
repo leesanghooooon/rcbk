@@ -20,17 +20,25 @@ public class BaseResponse<T> {
     }
 
     public static <T> BaseResponse<?> ok(T data) {
-        return new BaseResponse<>(DataHeader.ok(), data, null);
+        Map<String, String> errors = new HashMap<>();
+        errors.put("isError", Boolean.FALSE.toString());
+        return new BaseResponse<>(DataHeader.ok(), data, errors);
     }
 
     public static BaseResponse<?> error(HttpStatus status, Exception e) {
         Map<String, String> errors = new HashMap<>();
+        errors.put("code", Integer.toString(status.value()));
         errors.put("message",e.getMessage());
+        errors.put("isError", Boolean.toString(status.isError()));
         return new BaseResponse<>(DataHeader.error(status), null, errors);
     }
 
     public static BaseResponse<?> error(HttpStatus status, String message) {
-        return new BaseResponse<>(DataHeader.error(status), null, message);
+        Map<String, String> errors = new HashMap<>();
+        errors.put("code", Integer.toString(status.value()));
+        errors.put("message",message);
+        errors.put("isError", Boolean.toString(status.isError()));
+        return new BaseResponse<>(DataHeader.error(status), null, errors);
     }
 }
 
